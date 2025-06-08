@@ -226,4 +226,4 @@ class Logger {
 // Create and export singleton logger instance
 const logger = new Logger();
 
-module.exports = logger; 
+export default logger; 

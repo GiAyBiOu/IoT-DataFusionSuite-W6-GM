@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "IoT Data Fusion Suite - API to fetch and expose Sigfox device data with visualization capabilities",
   "main": "src/app.js",
+  "type": "module",
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",

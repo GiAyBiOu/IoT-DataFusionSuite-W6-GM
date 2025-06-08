@@ -4,8 +4,8 @@
  * @version 1.0.0
  */
 
-const express = require('express');
-const dataController = require('../controllers/dataController');
+import express from 'express';
+import dataController from '../controllers/dataController.js';
 
 const router = express.Router();
 
@@ -108,4 +108,4 @@ router.post('/cache/clear', dataController.clearCache);
 
 router.use('*', dataController.handleNotFound);
 
-module.exports = router; 
+export default router; 

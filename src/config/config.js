@@ -128,4 +128,4 @@ try {
   process.exit(1);
 }
 
-module.exports = config; 
+export default config; 

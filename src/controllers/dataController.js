@@ -4,9 +4,9 @@
  * @version 1.0.0
  */
 
-const dataService = require('../services/dataService');
-const { asyncHandler, createApiError } = require('../middleware/errorMiddleware');
-const logger = require('../utils/logger');
+import dataService from '../services/dataService.js';
+import { asyncHandler, createApiError } from '../middleware/errorMiddleware.js';
+import logger from '../utils/logger.js';
 
 /**
  * Data Controller Class
@@ -301,4 +301,4 @@ class DataController {
 
 const dataController = new DataController();
 
-module.exports = dataController; 
+export default dataController; 

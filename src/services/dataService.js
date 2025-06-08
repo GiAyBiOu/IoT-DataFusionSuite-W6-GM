@@ -4,10 +4,10 @@
  * @version 1.0.0
  */
 
-const axios = require('axios');
-const config = require('../config/config');
-const { createApiError } = require('../middleware/errorMiddleware');
-const logger = require('../utils/logger');
+import axios from 'axios';
+import config from '../config/config.js';
+import { createApiError } from '../middleware/errorMiddleware.js';
+import logger from '../utils/logger.js';
 
 /**
  * In-memory cache for storing fetched data
@@ -319,4 +319,4 @@ class DataService {
 
 const dataService = new DataService();
 
-module.exports = dataService; 
+export default dataService; 

@@ -4,17 +4,17 @@
  * @version 1.0.0
  */
 
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
-const dataRoutes = require('./routes/dataRoutes');
-const config = require('./config/config');
-const { errorHandler } = require('./middleware/errorMiddleware');
-const logger = require('./utils/logger');
+import dataRoutes from './routes/dataRoutes.js';
+import config from './config/config.js';
+import { errorHandler } from './middleware/errorMiddleware.js';
+import logger from './utils/logger.js';
 
 /**
  * Initialize Express application
@@ -197,4 +197,4 @@ process.on('SIGTERM', () => {
   });
 });
 
-module.exports = app; 
+export default app; 

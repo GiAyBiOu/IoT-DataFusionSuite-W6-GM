@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 
-const logger = require('../utils/logger');
+import logger from '../utils/logger.js';
 
 /**
  * Custom API Error class
@@ -157,7 +157,7 @@ const handleValidationError = (errors) => {
   return createApiError(`Validation Error: ${errorMessages}`, 400);
 };
 
-module.exports = {
+export {
   ApiError,
   createApiError,
   errorHandler,
