@@ -106,6 +106,4 @@ router.get('/status', dataController.getSystemStatus);
  */
 router.post('/cache/clear', dataController.clearCache);
 
-router.use('*', dataController.handleNotFound);
-
 export default router; 
