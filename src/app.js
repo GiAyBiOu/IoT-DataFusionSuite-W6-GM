@@ -38,14 +38,6 @@ const swaggerOptions = {
       title: 'IoT Data Fusion Suite API',
       version: '1.0.0',
       description: 'API for fetching and visualizing Sigfox IoT device data',
-      contact: {
-        name: 'Gabriel Mendoza',
-        email: 'gabriel.mendoza@iot-datafusion.com'
-      },
-      license: {
-        name: 'ISC',
-        url: 'https://opensource.org/licenses/ISC'
-      }
     },
     servers: [
       {

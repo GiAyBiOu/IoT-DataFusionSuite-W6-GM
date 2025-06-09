@@ -173,17 +173,24 @@ class DataService {
       return [];
     }
 
-    const sortedData = data
-      .filter(record => record && record.timestamp)
+    const sensorRecords = data
+      .filter(record => 
+        record && 
+        record.timestamp && 
+        record.temperature && record.temperature !== null && record.temperature !== "" && record.temperature !== "0" &&
+        record.humidity && record.humidity !== null && record.humidity !== "" && record.humidity !== "0" &&
+        record.pressure && record.pressure !== null && record.pressure !== "" && record.pressure !== "0"
+      )
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
       .slice(0, config.data.maxRecords);
 
-    logger.debug('Processed latest records', { 
+    logger.debug('Processed latest sensor records', { 
       totalInput: data.length,
-      processedOutput: sortedData.length 
+      filteredSensorRecords: sensorRecords.length,
+      processedOutput: sensorRecords.length 
     });
     
-    return sortedData.map(this.normalizeDataRecord);
+    return sensorRecords.map(this.normalizeDataRecord);
   }
 
   /**
