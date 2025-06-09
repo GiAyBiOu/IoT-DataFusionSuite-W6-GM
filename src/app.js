@@ -11,6 +11,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
 import dataRoutes from './routes/dataRoutes.js';
+import decoderRoutes from './routes/decoderRoutes.js';
 import config from './config/config.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
 import logger from './utils/logger.js';
@@ -45,9 +46,19 @@ const swaggerOptions = {
         description: 'Development server'
       }
     ],
+    tags: [
+      {
+        name: 'Decoder',
+        description: 'Endpoints for decoding hex data from IoT devices'
+      },
+      {
+        name: 'Data',
+        description: 'Endpoints for managing IoT data'
+      }
+    ],
     components: {
       schemas: {
-        IoTData: {
+        DecodedHexData: {
           type: 'object',
           properties: {
             device: {
@@ -58,69 +69,53 @@ const swaggerOptions = {
             timestamp: {
               type: 'string',
               format: 'date-time',
-              description: 'Data collection timestamp',
-              example: '2025-06-08T20:11:32.664Z'
+              description: 'Data collection timestamp'
             },
-            temperature: {
+            originalHex: {
               type: 'string',
-              description: 'Temperature reading in Celsius',
-              example: '13.625'
+              description: 'Original hexadecimal data',
+              example: '0000e840cdccc7424a3e8044'
             },
-            humidity: {
-              type: 'string',
-              description: 'Humidity percentage',
-              example: '99.9'
-            },
-            pressure: {
-              type: 'string',
-              description: 'Atmospheric pressure in hPa',
-              example: '1025.5137'
-            },
-            hexData: {
-              type: 'string',
-              description: 'Raw hexadecimal data from device',
-              example: '00005a41cdccc74270308044'
-            }
-          }
-        },
-        ApiResponse: {
-          type: 'object',
-          properties: {
-            success: {
-              type: 'boolean',
-              description: 'Operation success status'
-            },
-            message: {
-              type: 'string',
-              description: 'Response message'
-            },
-            data: {
-              type: 'array',
-              items: {
-                $ref: '#/components/schemas/IoTData'
+            decoded: {
+              type: 'object',
+              properties: {
+                temperature: {
+                  type: 'number',
+                  description: 'Temperature in Celsius',
+                  example: 7.25
+                },
+                humidity: {
+                  type: 'number',
+                  description: 'Humidity percentage',
+                  example: 99.9
+                },
+                pressure: {
+                  type: 'number',
+                  description: 'Pressure in hPa',
+                  example: 1025.9465
+                }
               }
             },
-            timestamp: {
-              type: 'string',
-              format: 'date-time',
-              description: 'Response timestamp'
+            hexBytes: {
+              type: 'number',
+              description: 'Number of bytes in hex data',
+              example: 12
+            },
+            decodingSuccess: {
+              type: 'boolean',
+              description: 'Whether decoding was successful',
+              example: true
             }
           }
         },
-        Error: {
+        SingleHexDecodingRequest: {
           type: 'object',
+          required: ['hexData'],
           properties: {
-            success: {
-              type: 'boolean',
-              example: false
-            },
-            error: {
+            hexData: {
               type: 'string',
-              description: 'Error message'
-            },
-            timestamp: {
-              type: 'string',
-              format: 'date-time'
+              description: 'Hexadecimal string to decode',
+              example: '0000e840cdccc7424a3e8044'
             }
           }
         }
@@ -147,15 +142,10 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api', dataRoutes);
+logger.info('Data routes registered at /api');
 
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    error: 'Endpoint not found',
-    message: `The requested endpoint ${req.method} ${req.originalUrl} does not exist`,
-    timestamp: new Date().toISOString()
-  });
-});
+app.use('/api/decoder', decoderRoutes);
+logger.info('Decoder routes registered at /api/decoder');
 
 app.use(errorHandler);
 
